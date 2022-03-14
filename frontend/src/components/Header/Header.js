@@ -1,4 +1,4 @@
-import { Box, makeStyles } from "@material-ui/core";
+import { Box, makeStyles, Tooltip } from "@material-ui/core";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
@@ -63,9 +63,14 @@ function Header() {
 
     return (
         <Box className={classes.layout}>
-            <Box className={classes.setting} onClick={onEditButtonClick}>
-                <ModeEditIcon />
-            </Box>
+            <Tooltip title="Edit">
+                <Box
+                    className={classes.setting}
+                    onClick={onEditButtonClick}
+                >
+                    <ModeEditIcon />
+                </Box>
+            </Tooltip>
             <Box className={classes.information}>
                 <Box className={classes.avatar}>
                     <img

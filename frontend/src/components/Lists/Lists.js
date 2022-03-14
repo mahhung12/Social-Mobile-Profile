@@ -6,6 +6,7 @@ import {
     ListItemIcon,
     ListItemText,
     makeStyles,
+    TextField,
 } from "@material-ui/core";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FolderIcon from "@mui/icons-material/Folder";
@@ -54,7 +55,7 @@ export default function Lists(props) {
     return (
         <Box className={classes.root}>
             <Box className={classes.wrapper}>
-                {isOpen ? (
+                {!isOpen ? (
                     <List
                         className={classes.lists}
                         sx={style}
@@ -92,59 +93,17 @@ export default function Lists(props) {
                 ) : (
                     <Box>
                         <Box className={classes.item}>
-                            <ListItem button>
-                                <Badge
-                                    badgeContent={4}
-                                    color="primary"
-                                    style={{
-                                        maxWidth: "25px",
-                                        marginRight: "20px",
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <FolderIcon />
-                                    </ListItemIcon>
-                                </Badge>
-                                <ListItemText primary="Name" />
-                                <ArrowForwardIosIcon
-                                    fontSize="small"
-                                    color="action"
-                                />
-                            </ListItem>
+                            <TextField
+                                required
+                                id="filled-required"
+                                label="Name"
+                                defaultValue=""
+                                variant="filled"
+                                style={{ width: "100%" }}
+                            />
                         </Box>
                     </Box>
                 )}
-                {/* <List
-                    sx={style}
-                    component="nav"
-                    aria-label="mailbox folders"
-                >
-                    {lists.map((list, index) => {
-                        return (
-                            <Box key={index} className={classes.item}>
-                                <ListItem button>
-                                    <Badge
-                                        badgeContent={4}
-                                        color="primary"
-                                        style={{
-                                            maxWidth: "25px",
-                                            marginRight: "20px",
-                                        }}
-                                    >
-                                        <ListItemIcon style={{}}>
-                                            {list.icon}
-                                        </ListItemIcon>
-                                    </Badge>
-                                    <ListItemText primary={list.label} />
-                                    <ArrowForwardIosIcon
-                                        fontSize="small"
-                                        color="action"
-                                    />
-                                </ListItem>
-                            </Box>
-                        );
-                    })}
-                </List> */}
             </Box>
         </Box>
     );

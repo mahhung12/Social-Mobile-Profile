@@ -1,6 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Icon from "@mui/material/Icon";
 
 import Contact from "../../components/Contact/Contact";
 import Header from "../../components/Header/Header";
@@ -28,9 +29,11 @@ const Profile = () => {
     const error = useSelector((state) => state.user.error);
 
     const [isOpenNewFeatures, setIsOpenNewFeatures] = useState(false);
+    const [addFeaturesIcon, setAddFeaturesIcon] = useState(false);
 
     const onClickAddNewFeatures = () => {
         setIsOpenNewFeatures(!isOpenNewFeatures);
+        setAddFeaturesIcon(!addFeaturesIcon);
     };
 
     return (
@@ -41,7 +44,10 @@ const Profile = () => {
             </Box>
 
             <Box className={classes.contact}>
-                <Contact isOpenAdd={onClickAddNewFeatures} />
+                <Contact
+                    isOpenAdd={onClickAddNewFeatures}
+                    defaultIcon={addFeaturesIcon}
+                />
             </Box>
 
             {error && <p className="error">Error fetch data</p>}

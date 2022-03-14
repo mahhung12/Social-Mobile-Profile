@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles } from "@material-ui/core";
+import { Box, Button, makeStyles, Tooltip } from "@material-ui/core";
 import Icon from "@mui/material/Icon";
 import SvgIcon from "@mui/material/SvgIcon";
 import React, { useState } from "react";
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Contact = (props) => {
-    const { isOpenAdd } = props;
+    const { isOpenAdd, defaultIcon } = props;
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -34,23 +34,32 @@ const Contact = (props) => {
             >
                 Contact Me
             </Button>
-            <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-            >
-                <SvgIcon color="white">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-                </SvgIcon>
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={isOpenAdd}
-            >
-                <Icon fontSize="small">add_circle</Icon>
-            </Button>
+            <Tooltip title="Home">
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                >
+                    <SvgIcon color="white">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </SvgIcon>
+                </Button>
+            </Tooltip>
+
+            <Tooltip title="Add Featues">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={isOpenAdd}
+                >
+                    {!defaultIcon ? (
+                        <Icon fontSize="small">add_circle</Icon>
+                    ) : (
+                        "Save"
+                    )}
+                </Button>
+            </Tooltip>
         </Box>
     );
 };
