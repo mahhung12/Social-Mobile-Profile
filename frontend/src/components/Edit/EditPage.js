@@ -14,7 +14,7 @@ import {
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { updateUser } from "../../redux/apiRequest";
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { update } from "../../redux/userSlice";
@@ -104,6 +104,7 @@ const EditPage = () => {
 
     // get data from store
     const user = useSelector((state) => state.user);
+    // get common status
 
     const [tabsActive, setTabsActive] = useState(true);
     const [editProfile, setEditProfile] = useState({
@@ -154,17 +155,10 @@ const EditPage = () => {
     const Input = styled("input")({
         display: "none",
     });
-    return (
-        <Box
-            component="form"
-            sx={{
-                "& .MuiTextField-root": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-            className={classes.root}
-        >
-            <Box className={classes.top}>
+
+    const ClassesTop = memo(() => {
+        return (
+            <>
                 <Box
                     className={classes.button}
                     onClick={onBackButtonClick}
@@ -175,9 +169,13 @@ const EditPage = () => {
                 <Box className={classes.button} onClick={onClickSaveClick}>
                     Save
                 </Box>
-            </Box>
+            </>
+        );
+    });
 
-            <Box className={classes.navigation}>
+    const ClassesNavigation = memo(() => {
+        return (
+            <>
                 <Button
                     variant="contained"
                     color={tabsActive ? "primary" : "default"}
@@ -194,6 +192,28 @@ const EditPage = () => {
                 >
                     Overview
                 </Button>
+            </>
+        );
+    });
+
+    return (
+        <Box
+            component="form"
+            sx={{
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+            className={classes.root}
+        >
+            {/* Class Top */}
+            <Box className={classes.top}>
+                <ClassesTop />
+            </Box>
+
+            {/* Navigation */}
+            <Box className={classes.navigation}>
+                <ClassesNavigation />
             </Box>
 
             <Box className={classes.avatar}>
@@ -315,4 +335,4 @@ const EditPage = () => {
     );
 };
 
-export default EditPage;
+export default memo(EditPage);

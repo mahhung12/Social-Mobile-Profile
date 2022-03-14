@@ -1,5 +1,5 @@
 import { Box, makeStyles } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import Contact from "../../components/Contact/Contact";
@@ -27,6 +27,12 @@ const Profile = () => {
     const pending = useSelector((state) => state.user.pending);
     const error = useSelector((state) => state.user.error);
 
+    const [isOpenNewFeatures, setIsOpenNewFeatures] = useState(false);
+
+    const onClickAddNewFeatures = () => {
+        setIsOpenNewFeatures(!isOpenNewFeatures);
+    };
+
     return (
         <Box className={classes.root}>
             {pending && <p className="loading">Loading...</p>}
@@ -35,12 +41,12 @@ const Profile = () => {
             </Box>
 
             <Box className={classes.contact}>
-                <Contact />
+                <Contact isOpenAdd={onClickAddNewFeatures} />
             </Box>
 
             {error && <p className="error">Error fetch data</p>}
             <Box className={classes.main}>
-                <Lists />
+                <Lists isOpen={isOpenNewFeatures} />
             </Box>
         </Box>
     );

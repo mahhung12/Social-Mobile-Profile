@@ -1,23 +1,22 @@
-import * as React from "react";
 import {
+    Badge,
+    Box,
     List,
     ListItem,
-    ListItemText,
-    Divider,
     ListItemIcon,
-    Box,
-    Badge,
+    ListItemText,
+    makeStyles,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FolderIcon from "@mui/icons-material/Folder";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import WorkIcon from "@mui/icons-material/Work";
 import ImageIcon from "@mui/icons-material/Image";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import WorkIcon from "@mui/icons-material/Work";
+import React from "react";
 
 const style = {
     width: "100%",
-    maxWidth: 360,
+    // maxWidth: 360,
     bgcolor: "background.paper",
 };
 
@@ -27,10 +26,15 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         padding: 0,
     },
+    wrapper: {},
+
+    lists: {
+        padding: 0,
+    },
 
     item: {
         height: "75px",
-
+        padding: 0,
         display: "flex",
     },
 }));
@@ -42,45 +46,106 @@ const lists = [
     { icon: <PeopleAltIcon />, label: "Friends" },
 ];
 
-export default function Lists() {
+export default function Lists(props) {
+    const { isOpen } = props;
+
     const classes = useStyles();
+
     return (
-        <List
-            className={classes.root}
-            sx={style}
-            component="nav"
-            aria-label="mailbox folders"
-        >
-            {lists.map((list, index) => {
-                return (
-                    <Box key={index} className={classes.item}>
-                        <ListItem button>
-                            <Badge
-                                badgeContent={4}
-                                color="primary"
-                                style={{
-                                    border: "1px solid red",
-                                    width: "fit-content",
-                                }}
-                            >
-                                <ListItemIcon
+        <Box className={classes.root}>
+            <Box className={classes.wrapper}>
+                {isOpen ? (
+                    <List
+                        className={classes.lists}
+                        sx={style}
+                        component="nav"
+                        aria-label="mailbox folders"
+                    >
+                        {lists.map((list, index) => {
+                            return (
+                                <Box key={index} className={classes.item}>
+                                    <ListItem button>
+                                        <Badge
+                                            badgeContent={4}
+                                            color="primary"
+                                            style={{
+                                                maxWidth: "25px",
+                                                marginRight: "20px",
+                                            }}
+                                        >
+                                            <ListItemIcon>
+                                                {list.icon}
+                                            </ListItemIcon>
+                                        </Badge>
+                                        <ListItemText
+                                            primary={list.label}
+                                        />
+                                        <ArrowForwardIosIcon
+                                            fontSize="small"
+                                            color="action"
+                                        />
+                                    </ListItem>
+                                </Box>
+                            );
+                        })}
+                    </List>
+                ) : (
+                    <Box>
+                        <Box className={classes.item}>
+                            <ListItem button>
+                                <Badge
+                                    badgeContent={4}
+                                    color="primary"
                                     style={{
-                                        border: "1px solid red",
-                                        width: "100%",
+                                        maxWidth: "25px",
+                                        marginRight: "20px",
                                     }}
                                 >
-                                    {list.icon}
-                                </ListItemIcon>
-                            </Badge>
-                            <ListItemText primary={list.label} />
-                            <ArrowRightIcon
-                                fontSize="large"
-                                color="action"
-                            />
-                        </ListItem>
+                                    <ListItemIcon>
+                                        <FolderIcon />
+                                    </ListItemIcon>
+                                </Badge>
+                                <ListItemText primary="Name" />
+                                <ArrowForwardIosIcon
+                                    fontSize="small"
+                                    color="action"
+                                />
+                            </ListItem>
+                        </Box>
                     </Box>
-                );
-            })}
-        </List>
+                )}
+                {/* <List
+                    sx={style}
+                    component="nav"
+                    aria-label="mailbox folders"
+                >
+                    {lists.map((list, index) => {
+                        return (
+                            <Box key={index} className={classes.item}>
+                                <ListItem button>
+                                    <Badge
+                                        badgeContent={4}
+                                        color="primary"
+                                        style={{
+                                            maxWidth: "25px",
+                                            marginRight: "20px",
+                                        }}
+                                    >
+                                        <ListItemIcon style={{}}>
+                                            {list.icon}
+                                        </ListItemIcon>
+                                    </Badge>
+                                    <ListItemText primary={list.label} />
+                                    <ArrowForwardIosIcon
+                                        fontSize="small"
+                                        color="action"
+                                    />
+                                </ListItem>
+                            </Box>
+                        );
+                    })}
+                </List> */}
+            </Box>
+        </Box>
     );
 }

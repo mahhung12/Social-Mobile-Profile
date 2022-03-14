@@ -1,7 +1,9 @@
 import { Box, Button, makeStyles } from "@material-ui/core";
 import Icon from "@mui/material/Icon";
 import SvgIcon from "@mui/material/SvgIcon";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addFeatures } from "../../redux/commonSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -12,8 +14,17 @@ const useStyles = makeStyles((theme) => ({
     button: {},
 }));
 
-const Contact = () => {
+const Contact = (props) => {
+    const { isOpenAdd } = props;
+
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const featuresStatus = useSelector((state) => state.common);
+
+    // const onClickAddNewFeatures = () => {
+    //     dispatch(addFeatures());
+    // };
+
     return (
         <Box className={classes.root}>
             <Button
@@ -36,6 +47,7 @@ const Contact = () => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
+                onClick={isOpenAdd}
             >
                 <Icon fontSize="small">add_circle</Icon>
             </Button>

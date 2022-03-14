@@ -1,6 +1,6 @@
 import { Box, makeStyles } from "@material-ui/core";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -47,8 +47,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Header = () => {
+function Header() {
     const classes = useStyles();
+
+    console.log("re-Render");
 
     // get data from store
     const user = useSelector((state) => state.user);
@@ -85,6 +87,6 @@ const Header = () => {
             </Box>
         </Box>
     );
-};
+}
 
-export default Header;
+export default memo(Header);
