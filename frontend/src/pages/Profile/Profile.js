@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import Contact from "../../components/Contact/Contact";
 import Header from "../../components/Header/Header";
+import Lists from "../../components/Lists/Lists";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -11,7 +12,14 @@ const useStyles = makeStyles((theme) => ({
     contact: {
         marginTop: "20px",
     },
-    main: {},
+    main: {
+        padding: 0,
+        margin: 0,
+        borderRadius: "17px",
+        backgroundColor: "#d2e4b085",
+        marginTop: "20px",
+        overflow: "hidden",
+    },
     footer: {},
 }));
 const Profile = () => {
@@ -31,9 +39,9 @@ const Profile = () => {
             </Box>
 
             {error && <p className="error">Error fetch data</p>}
-            <Box className={classes.main}></Box>
-
-            {/* <EditPage /> */}
+            <Box className={classes.main}>
+                <Lists />
+            </Box>
         </Box>
     );
 };
