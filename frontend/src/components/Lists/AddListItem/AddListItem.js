@@ -6,7 +6,9 @@ import {
     Modal,
     TextField,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { addFeatures } from '../../../redux/userSlice'
 import { arrayIconLists } from "../../../common/material-icons/MaterialIcons";
 
 const useStyles = makeStyles((theme) => ({
@@ -85,90 +87,64 @@ const styles = {
 };
 
 const AddListItem = (props) => {
+    const { handleOnInputChange, onClickChangeIcon, iconText, activeIconIndex } = props;
     const classes = useStyles();
-    const [iconText, setIconText] = useState({
-        name: "Select Icon",
-        icon: null,
-    });
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
     const [open, setOpen] = React.useState(false);
-    const [activeIconIndex, setActiveIconIndex] = useState();
-    const [nameFeature, setNameFeature] = useState({
-        name: "",
-    });
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const onClickChangeIcon = (list) => {
-        setIconText((prev) => ({
-            ...prev,
-            icon: list.icon,
-        }));
-        setActiveIconIndex(list.index);
-    };
-
     const OpenSelectIcon = () => {
         return (
-            <Modal open={open} onClose={handleClose}>
-                <Box sx={styles} className={classes.iconLayout}>
+            <Modal open={ open } onClose={ handleClose }>
+                <Box sx={ styles } className={ classes.iconLayout }>
                     <OpenListItem />
                 </Box>
             </Modal>
         );
     };
 
-    const handleOnInputChange = (prop) => (event) => {
-        event.preventDefault();
-        setNameFeature({ ...nameFeature, name: event.target.value });
-    };
-
-    const onSubmitFormAddData = () => {
-        return {
-            icon: iconText.icon,
-            name: nameFeature.name,
-        };
-    };
-
     const OpenListItem = () => {
         return (
-            <Box className={classes.Box}>
-                {arrayIconLists.map((list, index) => {
+            <Box className={ classes.Box }>
+                { arrayIconLists.map((list, index) => {
                     return (
                         <ListItemIcon
-                            className={`${classes.icon} ${
-                                index === activeIconIndex
-                                    ? `${classes.active}`
-                                    : ""
-                            }`}
-                            key={index}
-                            onClick={() =>
+                            className={ `${classes.icon} ${index === activeIconIndex
+                                ? `${classes.active}`
+                                : ""
+                                }` }
+                            key={ index }
+                            onClick={ () =>
                                 onClickChangeIcon({
                                     icon: list.icon,
                                     index,
                                 })
                             }
                         >
-                            {list.icon}
+                            { list.icon }
                         </ListItemIcon>
                     );
-                })}
+                }) }
             </Box>
         );
     };
 
     return (
-        <Box className={classes.rootAdd}>
-            <Box className={classes.itemAdd}>
+        <Box className={ classes.rootAdd }>
+            <Box className={ classes.itemAdd }>
                 <Box>
                     <Button
-                        className={classes.addIconLayout}
-                        onClick={handleOpen}
+                        className={ classes.addIconLayout }
+                        onClick={ handleOpen }
                         variant="outlined"
                     >
-                        {/* Select Icon */}
-                        {iconText.icon === null
+                        {/* Select Icon */ }
+                        { iconText.icon === null
                             ? iconText.name
-                            : iconText.icon}
+                            : iconText.icon }
                     </Button>
                 </Box>
                 <TextField
@@ -177,12 +153,12 @@ const AddListItem = (props) => {
                     label="Name"
                     defaultValue=""
                     variant="filled"
-                    style={{
+                    style={ {
                         width: "100%",
                         borderRadius: "14px",
-                    }}
-                    className={classes.addIcon}
-                    onChange={handleOnInputChange()}
+                    } }
+                    className={ classes.addIcon }
+                    onChange={ handleOnInputChange() }
                 />
             </Box>
             <OpenSelectIcon />

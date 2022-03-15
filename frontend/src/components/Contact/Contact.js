@@ -21,16 +21,12 @@ const Contact = (props) => {
     const dispatch = useDispatch();
     const featuresStatus = useSelector((state) => state.common);
 
-    // const onClickAddNewFeatures = () => {
-    //     dispatch(addFeatures());
-    // };
-
     return (
-        <Box className={classes.root}>
+        <Box className={ classes.root }>
             <Button
                 variant="contained"
                 color="primary"
-                className={classes.button}
+                className={ classes.button }
             >
                 Contact Me
             </Button>
@@ -38,7 +34,7 @@ const Contact = (props) => {
                 <Button
                     variant="contained"
                     color="secondary"
-                    className={classes.button}
+                    className={ classes.button }
                 >
                     <SvgIcon color="white">
                         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
@@ -50,14 +46,14 @@ const Contact = (props) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    className={classes.button}
-                    onClick={isOpenAdd}
+                    className={ classes.button }
+                    onClick={ isOpenAdd }
                 >
-                    {!defaultIcon ? (
+                    { !defaultIcon ? (
                         <Icon fontSize="small">add_circle</Icon>
                     ) : (
                         "Save"
-                    )}
+                    ) }
                 </Button>
             </Tooltip>
         </Box>

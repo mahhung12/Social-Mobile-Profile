@@ -1,6 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import AvatarProfile from "../assests/img/profileAvatar2.png";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import FolderIcon from "@mui/icons-material/Folder";
+import ImageIcon from "@mui/icons-material/Image";
+import WorkIcon from "@mui/icons-material/Work";
+
+const lists = [
+    { icon: <FolderIcon />, label: "Projects" },
+    { icon: <WorkIcon />, label: "Experiences" },
+    { icon: <ImageIcon />, label: "Images" },
+    { icon: <PeopleAltIcon />, label: "Friends" },
+];
+
 
 
 export const userSlice = createSlice({
@@ -16,7 +27,7 @@ export const userSlice = createSlice({
         pending: false,
         error: false,
 
-        listFeatures: [{ icon: <PeopleAltIcon />, label: "Friends" },],
+        listFeatures: lists,
     },
     reducers: {
         updateStart: (state) => {
@@ -42,8 +53,9 @@ export const userSlice = createSlice({
         },
 
         addFeatures: (state, action) => {
-            const newFeature = action.payload;
-            state.listFeatures.push(newFeature);
+            const newLists = state.listFeatures.concat([action.payload]);
+            state.listFeatures = newLists;
+            console.log(newLists);
         },
     },
 });

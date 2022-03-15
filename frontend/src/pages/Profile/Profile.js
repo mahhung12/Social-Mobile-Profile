@@ -1,7 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import Icon from "@mui/material/Icon";
+import { useDispatch, useSelector } from "react-redux";
+import { addFeatures } from '../../redux/userSlice'
 
 import Contact from "../../components/Contact/Contact";
 import Header from "../../components/Header/Header";
@@ -26,45 +26,74 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const pending = useSelector((state) => state.user.pending);
     const error = useSelector((state) => state.user.error);
 
     const [isOpenNewFeatures, setIsOpenNewFeatures] = useState(false);
     const [addFeaturesIcon, setAddFeaturesIcon] = useState(false);
+    const [activeIconIndex, setActiveIconIndex] = useState();
+    const [iconText, setIconText] = useState({ name: "Select Icon", icon: null });
+    const [nameFeature, setNameFeature] = useState({ name: "" });
 
     const onClickAddNewFeatures = () => {
         setIsOpenNewFeatures(!isOpenNewFeatures);
         setAddFeaturesIcon(!addFeaturesIcon);
     };
 
+    const handleOnInputChange = (prop) => (event) => {
+        event.preventDefault();
+        setNameFeature({ ...nameFeature, name: event.target.value });
+    };
+
+    const onClickChangeIcon = (list) => {
+        setIconText((prev) => ({
+            ...prev,
+            icon: list.icon,
+        }));
+        setActiveIconIndex(list.index);
+    };
+
+
     const onSubmitAddFeature = () => {
         if (addFeaturesIcon) {
-            alert("save clicked");
-            setIsOpenNewFeatures(!isOpenNewFeatures);
-        } else {
-            alert("Add clicked");
-            setIsOpenNewFeatures(!isOpenNewFeatures);
-            setAddFeaturesIcon(!addFeaturesIcon);
+            const AddData = {
+                icon: iconText.icon,
+                label: nameFeature.name,
+            }
+
+            dispatch(addFeatures(AddData));
         }
+        setIsOpenNewFeatures(!isOpenNewFeatures);
+        setAddFeaturesIcon(!addFeaturesIcon);
     };
 
     return (
-        <Box className={classes.root}>
-            {pending && <p className="loading">Loading...</p>}
-            <Box className={classes.header}>
+        <Box className={ classes.root }>
+            { pending && <p className="loading">Loading...</p> }
+            <Box className={ classes.header }>
                 <Header />
             </Box>
 
-            <Box className={classes.contact}>
+            <Box className={ classes.contact }>
                 <Contact
-                    isOpenAdd={onSubmitAddFeature}
-                    defaultIcon={addFeaturesIcon}
+                    isOpenAdd={ onSubmitAddFeature }
+                    defaultIcon={ addFeaturesIcon }
                 />
             </Box>
 
-            {error && <p className="error">Error fetch data</p>}
-            <Box className={classes.main}>
-                <Lists isOpen={isOpenNewFeatures} />
+            { error && <p className="error">Error fetch data</p> }
+            <Box className={ classes.main }>
+                <Lists
+                    isOpen={ isOpenNewFeatures }
+                    isAddFeature={ addFeaturesIcon }
+                    onClickAddNewFeatures={ onClickAddNewFeatures }
+                    handleOnInputChange={ handleOnInputChange }
+                    onClickChangeIcon={ onClickChangeIcon }
+                    iconText={ iconText }
+                    nameFeature={ nameFeature }
+                    activeIconIndex={ activeIconIndex }
+                />
             </Box>
         </Box>
     );

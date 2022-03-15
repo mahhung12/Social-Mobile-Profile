@@ -11,10 +11,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 
-import FolderIcon from "@mui/icons-material/Folder";
-import ImageIcon from "@mui/icons-material/Image";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import WorkIcon from "@mui/icons-material/Work";
 import AddListItem from "./AddListItem/AddListItem";
 
 const style = {
@@ -41,14 +37,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const lists = [
-    { icon: <FolderIcon />, label: "Projects" },
-    { icon: <WorkIcon />, label: "Experiences" },
-    { icon: <ImageIcon />, label: "Images" },
-];
-
 export default function Lists(props) {
-    const { isOpen } = props;
+    const { isOpen, isAddFeature, onClickAddNewFeatures, handleOnInputChange, onClickChangeIcon, iconText, nameFeature, activeIconIndex } = props;
     const classes = useStyles();
 
     const [badgeData, setBadgeData] = useState(3);
@@ -56,8 +46,6 @@ export default function Lists(props) {
     const userListFeatures = useSelector(
         (state) => state.user.listFeatures
     );
-    let newList = userListFeatures.concat(lists)
-    console.log(newList);
 
     return (
         <Box className={ classes.root }>
@@ -69,7 +57,7 @@ export default function Lists(props) {
                         component="nav"
                         aria-label="mailbox folders"
                     >
-                        { newList.map((list, index) => {
+                        { userListFeatures.map((list, index) => {
                             return (
                                 <Box key={ index } className={ classes.item }>
                                     <ListItem button>
@@ -98,7 +86,15 @@ export default function Lists(props) {
                         }) }
                     </List>
                 ) : (
-                    <AddListItem />
+                    <AddListItem
+                        isAddFeature={ isAddFeature }
+                        onClickAddNewFeatures={ onClickAddNewFeatures }
+                        handleOnInputChange={ handleOnInputChange }
+                        onClickChangeIcon={ onClickChangeIcon }
+                        iconText={ iconText }
+                        nameFeature={ nameFeature }
+                        activeIconIndex={ activeIconIndex }
+                    />
                 ) }
             </Box>
         </Box>
