@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import AvatarProfile from "../assests/img/profileAvatar2.png";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+
 
 export const userSlice = createSlice({
     name: "user",
@@ -13,6 +15,8 @@ export const userSlice = createSlice({
         address: "Hn",
         pending: false,
         error: false,
+
+        listFeatures: [{ icon: <PeopleAltIcon />, label: "Friends" },],
     },
     reducers: {
         updateStart: (state) => {
@@ -36,10 +40,15 @@ export const userSlice = createSlice({
             state.hashtag = action.payload.hashtag;
             state.address = action.payload.address;
         },
+
+        addFeatures: (state, action) => {
+            const newFeature = action.payload;
+            state.listFeatures.push(newFeature);
+        },
     },
 });
 
-export const { updateStart, updateError, updateSuccess } =
+export const { updateStart, updateError, updateSuccess, addFeatures } =
     userSlice.actions;
 
 export default userSlice.reducer;

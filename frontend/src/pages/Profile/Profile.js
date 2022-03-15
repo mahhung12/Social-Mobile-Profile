@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     footer: {},
 }));
+
 const Profile = () => {
     const classes = useStyles();
     const pending = useSelector((state) => state.user.pending);
@@ -36,6 +37,17 @@ const Profile = () => {
         setAddFeaturesIcon(!addFeaturesIcon);
     };
 
+    const onSubmitAddFeature = () => {
+        if (addFeaturesIcon) {
+            alert("save clicked");
+            setIsOpenNewFeatures(!isOpenNewFeatures);
+        } else {
+            alert("Add clicked");
+            setIsOpenNewFeatures(!isOpenNewFeatures);
+            setAddFeaturesIcon(!addFeaturesIcon);
+        }
+    };
+
     return (
         <Box className={classes.root}>
             {pending && <p className="loading">Loading...</p>}
@@ -45,7 +57,7 @@ const Profile = () => {
 
             <Box className={classes.contact}>
                 <Contact
-                    isOpenAdd={onClickAddNewFeatures}
+                    isOpenAdd={onSubmitAddFeature}
                     defaultIcon={addFeaturesIcon}
                 />
             </Box>

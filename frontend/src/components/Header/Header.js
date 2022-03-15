@@ -50,8 +50,6 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
     const classes = useStyles();
 
-    console.log("re-Render");
-
     // get data from store
     const user = useSelector((state) => state.user);
 
