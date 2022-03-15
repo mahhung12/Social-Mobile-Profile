@@ -1,4 +1,4 @@
-import { Box, makeStyles } from "@material-ui/core";
+import { Box, makeStyles, Snackbar } from "@material-ui/core";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeatures } from '../../redux/userSlice'
@@ -8,7 +8,7 @@ import Header from "../../components/Header/Header";
 import Lists from "../../components/Lists/Lists";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: { position: 'relative', height: '100vh' },
     header: {},
     contact: {
         marginTop: "20px",
@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#d2e4b085",
         marginTop: "20px",
         overflow: "hidden",
+    },
+    snackbar: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
     },
     footer: {},
 }));
@@ -35,6 +40,9 @@ const Profile = () => {
     const [activeIconIndex, setActiveIconIndex] = useState();
     const [iconText, setIconText] = useState({ name: "Select Icon", icon: null });
     const [nameFeature, setNameFeature] = useState({ name: "" });
+    const [positionToastMsg, setPositionToastMsg] = useState({
+        open: false,
+    });
 
     const onClickAddNewFeatures = () => {
         setIsOpenNewFeatures(!isOpenNewFeatures);
@@ -44,6 +52,10 @@ const Profile = () => {
     const handleOnInputChange = (prop) => (event) => {
         event.preventDefault();
         setNameFeature({ ...nameFeature, name: event.target.value });
+    };
+
+    const handleClose = () => {
+        setPositionToastMsg({ open: false });
     };
 
     const onClickChangeIcon = (list) => {
@@ -57,45 +69,72 @@ const Profile = () => {
 
     const onSubmitAddFeature = () => {
         if (addFeaturesIcon) {
-            const AddData = {
-                icon: iconText.icon,
-                label: nameFeature.name,
-            }
+            if (nameFeature.name === '') {
+                setPositionToastMsg({ open: true });
+            } else {
+                const AddData = {
+                    icon: iconText.icon,
+                    label: nameFeature.name,
+                }
 
-            dispatch(addFeatures(AddData));
+                dispatch(addFeatures(AddData));
+
+                setIsOpenNewFeatures(!isOpenNewFeatures);
+                setAddFeaturesIcon(!addFeaturesIcon);
+
+                setIconText({ name: "Select Icon", icon: null })
+                setNameFeature({ name: "" })
+            }
+        } else {
+            setIsOpenNewFeatures(!isOpenNewFeatures);
+            setAddFeaturesIcon(!addFeaturesIcon);
         }
-        setIsOpenNewFeatures(!isOpenNewFeatures);
-        setAddFeaturesIcon(!addFeaturesIcon);
     };
 
     return (
-        <Box className={ classes.root }>
-            { pending && <p className="loading">Loading...</p> }
-            <Box className={ classes.header }>
-                <Header />
-            </Box>
+        <>
+            <Box className={ classes.root }>
+                { pending && <p className="loading">Loading...</p> }
+                <Box className={ classes.header }>
+                    <Header />
+                </Box>
 
-            <Box className={ classes.contact }>
-                <Contact
-                    isOpenAdd={ onSubmitAddFeature }
-                    defaultIcon={ addFeaturesIcon }
+                <Box className={ classes.contact }>
+                    <Contact
+                        isOpenAdd={ onSubmitAddFeature }
+                        defaultIcon={ addFeaturesIcon }
+                    />
+                </Box>
+
+                { error && <p className="error">Error fetch data</p> }
+                <Box className={ classes.main }>
+                    <Lists
+                        isOpen={ isOpenNewFeatures }
+                        isAddFeature={ addFeaturesIcon }
+                        onClickAddNewFeatures={ onClickAddNewFeatures }
+                        handleOnInputChange={ handleOnInputChange }
+                        onClickChangeIcon={ onClickChangeIcon }
+                        iconText={ iconText }
+                        nameFeature={ nameFeature }
+                        activeIconIndex={ activeIconIndex }
+                    />
+                </Box>
+                <Snackbar
+                    anchorOrigin={ {
+                        vertical: 'bottom',
+                        horizontal: 'left'
+                    } }
+                    className={ classes.snackbar }
+                    autoHideDuration={ 3000 }
+                    open={ positionToastMsg.open }
+                    onClose={ handleClose }
+                    message="Don't leave field with empty"
+                    style={ {
+                        maxWidth: 'fit-content',
+                    } }
                 />
             </Box>
-
-            { error && <p className="error">Error fetch data</p> }
-            <Box className={ classes.main }>
-                <Lists
-                    isOpen={ isOpenNewFeatures }
-                    isAddFeature={ addFeaturesIcon }
-                    onClickAddNewFeatures={ onClickAddNewFeatures }
-                    handleOnInputChange={ handleOnInputChange }
-                    onClickChangeIcon={ onClickChangeIcon }
-                    iconText={ iconText }
-                    nameFeature={ nameFeature }
-                    activeIconIndex={ activeIconIndex }
-                />
-            </Box>
-        </Box>
+        </>
     );
 };
 
