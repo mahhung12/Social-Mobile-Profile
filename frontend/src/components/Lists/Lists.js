@@ -42,10 +42,15 @@ export default function Lists(props) {
     const classes = useStyles();
 
     const [badgeData, setBadgeData] = useState(3);
+    const [totalItemPerPage, setTotalItemPerPage] = useState([]);
 
     const userListFeatures = useSelector(
         (state) => state.user.listFeatures
     );
+
+    useEffect(() => {
+        setTotalItemPerPage(userListFeatures.slice(0, 5));
+    }, [userListFeatures]);
 
     return (
         <Box className={ classes.root }>
@@ -57,7 +62,7 @@ export default function Lists(props) {
                         component="nav"
                         aria-label="mailbox folders"
                     >
-                        { userListFeatures.map((list, index) => {
+                        { totalItemPerPage.map((list, index) => {
                             return (
                                 <Box key={ index } className={ classes.item }>
                                     <ListItem button>

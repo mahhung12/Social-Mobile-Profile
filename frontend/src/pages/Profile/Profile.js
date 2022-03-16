@@ -1,5 +1,6 @@
 import { Box, makeStyles, Snackbar } from "@material-ui/core";
-import React, { useState } from "react";
+import Pagination from '@mui/material/Pagination';
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeatures } from '../../redux/userSlice'
 
@@ -8,7 +9,10 @@ import Header from "../../components/Header/Header";
 import Lists from "../../components/Lists/Lists";
 
 const useStyles = makeStyles((theme) => ({
-    root: { position: 'relative', height: '100vh' },
+    root: {
+        position: 'relative',
+        height: '100vh',
+    },
     header: {},
     contact: {
         marginTop: "20px",
@@ -21,10 +25,16 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "20px",
         overflow: "hidden",
     },
-    snackbar: {
-        position: 'absolute',
+
+    pagination: {
+        position: "absolute",
         bottom: 0,
         left: 0,
+        right: 0,
+
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     },
     footer: {},
 }));
@@ -40,9 +50,26 @@ const Profile = () => {
     const [activeIconIndex, setActiveIconIndex] = useState();
     const [iconText, setIconText] = useState({ name: "Select Icon", icon: null });
     const [nameFeature, setNameFeature] = useState({ name: "" });
-    const [positionToastMsg, setPositionToastMsg] = useState({
-        open: false,
-    });
+    const [positionToastMsg, setPositionToastMsg] = useState({ open: false });
+    const [showPagging, setShowPagging] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const userListFeatures = useSelector(
+        (state) => state.user.listFeatures
+    );
+
+    useEffect(() => {
+        let isShowPagging = true;
+        if (isShowPagging) {
+            if (userListFeatures.length > 5) {
+                setShowPagging(true);
+            }
+        }
+        return () => {
+            return isShowPagging = false;
+        };
+    }, [userListFeatures]);
+
 
     const onClickAddNewFeatures = () => {
         setIsOpenNewFeatures(!isOpenNewFeatures);
@@ -65,7 +92,6 @@ const Profile = () => {
         }));
         setActiveIconIndex(list.index);
     };
-
 
     const onSubmitAddFeature = () => {
         if (addFeaturesIcon) {
@@ -121,18 +147,22 @@ const Profile = () => {
                 </Box>
                 <Snackbar
                     anchorOrigin={ {
-                        vertical: 'bottom',
-                        horizontal: 'left'
+                        vertical: 'top',
+                        horizontal: 'right'
                     } }
-                    className={ classes.snackbar }
                     autoHideDuration={ 3000 }
                     open={ positionToastMsg.open }
                     onClose={ handleClose }
                     message="Don't leave field with empty"
-                    style={ {
-                        maxWidth: 'fit-content',
-                    } }
                 />
+
+                { showPagging &&
+                    <Box className={ classes.pagination }>
+                        <Pagination page={ currentPage } count={ (Math.floor((userListFeatures.length) / 5) + 1) } shape="rounded"
+                            onChange={ (event, value) => setCurrentPage(value) }
+                        />
+                    </Box>
+                }
             </Box>
         </>
     );

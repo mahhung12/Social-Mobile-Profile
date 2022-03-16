@@ -12,8 +12,6 @@ const lists = [
     { icon: <PeopleAltIcon />, label: "Friends" },
 ];
 
-
-
 export const userSlice = createSlice({
     name: "user",
     initialState: {
