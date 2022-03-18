@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Lists(props) {
-    const { isOpen, isAddFeature, onClickAddNewFeatures, handleOnInputChange, onClickChangeIcon, iconText, nameFeature, activeIconIndex } = props;
+    const { isOpen, isAddFeature, onClickAddNewFeatures,
+        handleOnInputChange, onClickChangeIcon, iconText,
+        nameFeature, activeIconIndex, currentPage } = props;
     const classes = useStyles();
 
     const [badgeData, setBadgeData] = useState(3);
@@ -49,8 +51,8 @@ export default function Lists(props) {
     );
 
     useEffect(() => {
-        setTotalItemPerPage(userListFeatures.slice(0, 5));
-    }, [userListFeatures]);
+        setTotalItemPerPage(userListFeatures.slice(((currentPage - 1) * 5 + 1), ((currentPage - 1) * 5 + 1) + 5));
+    }, [userListFeatures, currentPage]);
 
     return (
         <Box className={ classes.root }>

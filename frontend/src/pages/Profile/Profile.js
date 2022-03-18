@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
     const pending = useSelector((state) => state.user.pending);
     const error = useSelector((state) => state.user.error);
 
@@ -61,7 +62,7 @@ const Profile = () => {
     useEffect(() => {
         let isShowPagging = true;
         if (isShowPagging) {
-            if (userListFeatures.length > 5) {
+            if (userListFeatures.length > 6) {
                 setShowPagging(true);
             }
         }
@@ -143,6 +144,7 @@ const Profile = () => {
                         iconText={ iconText }
                         nameFeature={ nameFeature }
                         activeIconIndex={ activeIconIndex }
+                        currentPage={ currentPage }
                     />
                 </Box>
                 <Snackbar

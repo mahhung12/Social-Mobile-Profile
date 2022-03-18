@@ -9,6 +9,8 @@ export const commonSlice = createSlice({
         addFeatures: (state) => {
             state.addFeatures = !state.addFeatures;
         },
+
+
     },
 });
 
