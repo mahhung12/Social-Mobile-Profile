@@ -7,7 +7,7 @@ import Profile from "./pages/Profile/Profile";
 
 const useStyles = makeStyles((theme) => ({
     fatherRoot: {
-        margin: "20px 0",
+        margin: "0",
     },
 
     root: {
@@ -37,16 +37,16 @@ function App() {
         navigate("/profile");
     }
     return (
-        <Box className={classes.fatherRoot}>
-            <Box className={classes.root}>
+        <Box className={ classes.fatherRoot }>
+            <Box className={ classes.root }>
                 <Routes>
-                    <Route path="/" element={<Profile />} />
+                    <Route path="/" element={ <Profile /> } />
 
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile" element={ <Profile /> } />
 
-                    <Route path="edit" element={<EditPage />} />
-                    {/* </Route> */}
-                    {/* <EditPage /> */}
+                    <Route path="edit" element={ <EditPage /> } />
+                    {/* </Route> */ }
+                    {/* <EditPage /> */ }
                 </Routes>
             </Box>
         </Box>
