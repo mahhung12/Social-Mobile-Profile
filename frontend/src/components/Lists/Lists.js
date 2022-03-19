@@ -7,6 +7,7 @@ import {
     ListItemText,
     makeStyles,
 } from "@material-ui/core";
+import { useNavigate } from 'react-router-dom'
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
@@ -42,6 +43,7 @@ export default function Lists(props) {
         handleOnInputChange, onClickChangeIcon, iconText,
         nameFeature, activeIconIndex, currentPage } = props;
     const classes = useStyles();
+    let navigate = useNavigate();
 
     const [badgeData, setBadgeData] = useState(3);
     const [totalItemPerPage, setTotalItemPerPage] = useState([]);
@@ -49,6 +51,11 @@ export default function Lists(props) {
     const userListFeatures = useSelector(
         (state) => state.user.listFeatures
     );
+
+    const handleOnClickListItem = (name) => {
+        const toLowerCase = name.toLowerCase();
+        navigate(`/${toLowerCase}`)
+    }
 
     useEffect(() => {
         setTotalItemPerPage(userListFeatures.slice(((currentPage - 1) * 5), ((currentPage - 1) * 5 + 1) + 4));
@@ -66,7 +73,11 @@ export default function Lists(props) {
                     >
                         { totalItemPerPage.map((list, index) => {
                             return (
-                                <Box key={ index } className={ classes.item }>
+                                <Box
+                                    key={ index }
+                                    className={ classes.item }
+                                    onClick={ () => handleOnClickListItem(list.label) }
+                                >
                                     <ListItem button>
                                         <Badge
                                             badgeContent={ badgeData }

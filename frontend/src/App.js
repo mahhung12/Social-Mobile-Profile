@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import "./App.css";
 import EditPage from "./components/Edit/EditPage";
 import Profile from "./pages/Profile/Profile";
+import Projects from "./pages/Projects/projects";
 
 const useStyles = makeStyles((theme) => ({
     fatherRoot: {
@@ -43,6 +44,7 @@ function App() {
                     <Route path="/" element={ <Profile /> } />
 
                     <Route path="/profile" element={ <Profile /> } />
+                    <Route path="/projects" element={ <Projects /> } />
 
                     <Route path="edit" element={ <EditPage /> } />
                     {/* </Route> */ }

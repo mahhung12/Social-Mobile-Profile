@@ -106,6 +106,7 @@ const EditPage = () => {
     const user = useSelector((state) => state.user);
     // get common status
 
+    const [nameTitleTop, setNameTitleTop] = useState('Profile');
     const [tabsActive, setTabsActive] = useState(true);
     const [editProfile, setEditProfile] = useState({
         name: user.name || "",
@@ -129,7 +130,8 @@ const EditPage = () => {
         console.log(editProfile);
     };
 
-    function onClickTabs(bool) {
+    function onClickTabs(bool, name) {
+        setNameTitleTop(name)
         return bool ? setTabsActive(true) : setTabsActive(false);
     }
 
@@ -160,13 +162,15 @@ const EditPage = () => {
         return (
             <>
                 <Box
-                    className={classes.button}
-                    onClick={onBackButtonClick}
+                    className={ classes.button }
+                    onClick={ onBackButtonClick }
                 >
                     <KeyboardBackspaceIcon />
                 </Box>
-                <Box className={classes.title}>Profile</Box>
-                <Box className={classes.button} onClick={onClickSaveClick}>
+                <Box className={ classes.title }>
+                    { nameTitleTop }
+                </Box>
+                <Box className={ classes.button } onClick={ onClickSaveClick }>
                     Save
                 </Box>
             </>
@@ -178,17 +182,17 @@ const EditPage = () => {
             <>
                 <Button
                     variant="contained"
-                    color={tabsActive ? "primary" : "default"}
-                    onClick={() => onClickTabs(true)}
-                    className={classes.tabs}
+                    color={ tabsActive ? "primary" : "default" }
+                    onClick={ () => onClickTabs(true, "Profile") }
+                    className={ classes.tabs }
                 >
                     Profile
                 </Button>
                 <Button
                     variant="contained"
-                    color={tabsActive ? "default" : "primary"}
-                    onClick={() => onClickTabs(false)}
-                    className={classes.tabs}
+                    color={ tabsActive ? "default" : "primary" }
+                    onClick={ () => onClickTabs(false, "Overview") }
+                    className={ classes.tabs }
                 >
                     Overview
                 </Button>
@@ -199,40 +203,40 @@ const EditPage = () => {
     return (
         <Box
             component="form"
-            sx={{
+            sx={ {
                 "& .MuiTextField-root": { m: 1, width: "25ch" },
-            }}
+            } }
             noValidate
             autoComplete="off"
-            className={classes.root}
+            className={ classes.root }
         >
-            {/* Class Top */}
-            <Box className={classes.top}>
+            {/* Class Top */ }
+            <Box className={ classes.top }>
                 <ClassesTop />
             </Box>
 
-            {/* Navigation */}
-            <Box className={classes.navigation}>
+            {/* Navigation */ }
+            <Box className={ classes.navigation }>
                 <ClassesNavigation />
             </Box>
 
-            <Box className={classes.avatar}>
-                <Box className={classes.avatarRelative}>
+            <Box className={ classes.avatar }>
+                <Box className={ classes.avatarRelative }>
                     <Avatar
                         alt="Avatar"
                         // variant="square"
-                        src={editProfile.img}
-                        style={{
+                        src={ editProfile.img }
+                        style={ {
                             width: "100%",
                             height: "100%",
                             objectFit: "cover",
-                        }}
+                        } }
                     />
                     <label
                         htmlFor="icon-button-file"
-                        className={classes.camera}
-                        onChange={handleEditProfileChange("img")}
-                        // value={editProfile.img}
+                        className={ classes.camera }
+                        onChange={ handleEditProfileChange("img") }
+                    // value={editProfile.img}
                     >
                         <Input
                             accept="image/*"
@@ -250,42 +254,42 @@ const EditPage = () => {
                 </Box>
             </Box>
 
-            <Box className={classes.main}>
-                <Box className={classes.name}>
+            <Box className={ classes.main }>
+                <Box className={ classes.name }>
                     <FormLabel>Name</FormLabel>
                     <TextField
                         // label="Name"
-                        value={editProfile.name}
+                        value={ editProfile.name }
                         variant="outlined"
                         id="name"
-                        style={{ width: "100%" }}
-                        onChange={handleEditProfileChange("name")}
+                        style={ { width: "100%" } }
+                        onChange={ handleEditProfileChange("name") }
                     />
                 </Box>
-                <Box className={classes.major}>
+                <Box className={ classes.major }>
                     <FormLabel>Major</FormLabel>
                     <TextField
                         // label="Major"
-                        value={editProfile.major}
+                        value={ editProfile.major }
                         variant="outlined"
                         id="major"
-                        style={{ width: "100%" }}
-                        onChange={handleEditProfileChange("major")}
+                        style={ { width: "100%" } }
+                        onChange={ handleEditProfileChange("major") }
                     />
                 </Box>
-                <Box className={classes.story}>
+                <Box className={ classes.story }>
                     <FormLabel>Story</FormLabel>
 
                     <TextField
                         // label="Story"
-                        value={editProfile.story}
+                        value={ editProfile.story }
                         variant="outlined"
                         id="story"
-                        style={{ width: "100%" }}
-                        onChange={handleEditProfileChange("story")}
+                        style={ { width: "100%" } }
+                        onChange={ handleEditProfileChange("story") }
                     />
                 </Box>
-                <Box className={classes.gender}>
+                <Box className={ classes.gender }>
                     <FormLabel id="demo-row-radio-buttons-group-label">
                         Gender
                     </FormLabel>
@@ -293,41 +297,41 @@ const EditPage = () => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        onChange={handleEditProfileChange("gender")}
-                        defaultValue={editProfile.gender}
+                        onChange={ handleEditProfileChange("gender") }
+                        defaultValue={ editProfile.gender }
                     >
                         <FormControlLabel
                             value="male"
-                            control={<Radio />}
+                            control={ <Radio /> }
                             label="Male"
                         />
                         <FormControlLabel
                             value="female"
-                            control={<Radio />}
+                            control={ <Radio /> }
                             label="Female"
                         />
                     </RadioGroup>
                 </Box>
-                <Box className={classes.id}>
+                <Box className={ classes.id }>
                     <FormLabel>Hashtag</FormLabel>
                     <TextField
                         disabled
-                        value={editProfile.hashtag}
+                        value={ editProfile.hashtag }
                         variant="outlined"
                         id="hashtag"
-                        style={{ width: "100%" }}
-                        onChange={handleEditProfileChange("hashtag")}
+                        style={ { width: "100%" } }
+                        onChange={ handleEditProfileChange("hashtag") }
                     />
                 </Box>
-                <Box className={classes.address}>
+                <Box className={ classes.address }>
                     <FormLabel>Address</FormLabel>
                     <TextField
                         // label="Address"
-                        value={editProfile.address}
+                        value={ editProfile.address }
                         variant="outlined"
                         id="address"
-                        style={{ width: "100%" }}
-                        onChange={handleEditProfileChange("address")}
+                        style={ { width: "100%" } }
+                        onChange={ handleEditProfileChange("address") }
                     />
                 </Box>
             </Box>
