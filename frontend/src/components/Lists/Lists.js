@@ -51,7 +51,7 @@ export default function Lists(props) {
     );
 
     useEffect(() => {
-        setTotalItemPerPage(userListFeatures.slice(((currentPage - 1) * 5 + 1), ((currentPage - 1) * 5 + 1) + 5));
+        setTotalItemPerPage(userListFeatures.slice(((currentPage - 1) * 5), ((currentPage - 1) * 5 + 1) + 4));
     }, [userListFeatures, currentPage]);
 
     return (

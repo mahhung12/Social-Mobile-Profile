@@ -62,7 +62,7 @@ const Profile = () => {
     useEffect(() => {
         let isShowPagging = true;
         if (isShowPagging) {
-            if (userListFeatures.length > 6) {
+            if (userListFeatures.length > 5) {
                 setShowPagging(true);
             }
         }
@@ -160,7 +160,7 @@ const Profile = () => {
 
                 { showPagging &&
                     <Box className={ classes.pagination }>
-                        <Pagination page={ currentPage } count={ (Math.floor((userListFeatures.length) / 5) + 1) } shape="rounded"
+                        <Pagination page={ currentPage } count={ (Math.ceil((userListFeatures.length) / 5)) } shape="rounded"
                             onChange={ (event, value) => setCurrentPage(value) }
                         />
                     </Box>
